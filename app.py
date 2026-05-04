@@ -183,7 +183,7 @@ def main():
 
     st.markdown(f"""{project_name} is a \${project_cost:,.0f} megaproject. This makes it eligible for a {tax_break_term} year tax break.""")
 
-    st.markdown(f"""This would cost your district \${df_project['Tax Break'].values[-1]:,.0f} over the {tax_break_term} year period and \${df_project['Tax Break EAV Adjusment'].values[0]:,.0f} in the first year alone.<sup>1</sup>""",unsafe_allow_html=True
+    st.markdown(f"""This would cost your district \${df_project['Tax Break'].values[-1]:,.0f} over the {tax_break_term} year period and \${df_project['Tax Break'].values[0]:,.0f} in the first year alone.<sup>1</sup>""",unsafe_allow_html=True
 )
     st.subheader(f"Cumulative tax break over time")
 
