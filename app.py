@@ -64,6 +64,10 @@ def main():
 
     # Select megaproject
     project = st.sidebar.radio("Select a megaproject example", ["A","B","Bears Stadium and Entertainment Center"])
+
+    # Set special payment percentage
+
+    special_payment_percentage = 2
     
     # Set added equalized assesseed value (assuming added EAV equals the full proposed project cost amount) - (Value * Assessed Value (for commerical) * equalization factor).
     # Most recent equalization factor is for 2025 (https://tax.illinois.gov/research/news/2024-cook-county-final-multiplier.html)
@@ -80,7 +84,7 @@ def main():
     if project == "A":
         project_cost = 100000000
         tax_break_term = 25
-        special_payment_min = 1 * (eav*tax_rate) # Assume 100% special payment
+        special_payment_min = special_payment_percentage * (eav*tax_rate) # Assume 100% special payment
         value_added_y1 = a
         project_name = "A"
         if df_district['County'].values[0] ==  "Cook":
@@ -91,6 +95,8 @@ def main():
                 "Tax Break EAV Adjusment": [value_added_y1 * 1.4 ** ((year - 1) // 3) for year in range(1, 26)]
             })
             df_project['Tax Break Cumulative'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+            df_project['Special Payment Cumulative'] = df_project['Special Payment'].cumsum()
+            df_project["Tax Break"] = df_project["Tax Break Cumulative"] - df_project["Special Payment Cumulative"]
         else:
             df_project = pd.DataFrame({
                 "Year": list(range(1,26)),
@@ -99,11 +105,13 @@ def main():
                 "Tax Break EAV Adjusment": [value_added_y1 * 1.4 ** ((year - 1) // 4) for year in range(1, 26)]
             })
             df_project['Tax Break Cumulative'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+            df_project['Special Payment Cumulative'] = df_project['Special Payment'].cumsum()
+            df_project["Tax Break"] = df_project["Tax Break Cumulative"] - df_project["Special Payment Cumulative"]
 
     if project == "B":
         project_cost = 500000000
         tax_break_term = 30
-        special_payment_min = 1 * (eav*tax_rate) # Assume 100% special payment
+        special_payment_min = special_payment_percentage * (eav*tax_rate) # Assume 100% special payment
         value_added_y1 = b
         project_name = "B"
         if df_district['County'].values[0] ==  "Cook":
@@ -114,6 +122,9 @@ def main():
                 "Tax Break EAV Adjusment": [value_added_y1 * 1.4 ** ((year - 1) // 3) for year in range(1,31)]
             })
             df_project['Tax Break Cumulative'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+            df_project['Special Payment Cumulative'] = df_project['Special Payment'].cumsum()
+            df_project["Tax Break"] = df_project["Tax Break Cumulative"] - df_project["Special Payment Cumulative"]
+
         else:
             df_project = pd.DataFrame({
                 "Year": list(range(1,31)),
@@ -122,11 +133,14 @@ def main():
                 "Tax Break EAV Adjusment": [value_added_y1 * 1.4 ** ((year - 1) // 4) for year in range(1,31)]
             })
             df_project['Tax Break Cumulative'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+            df_project['Special Payment Cumulative'] = df_project['Special Payment'].cumsum()
+            df_project["Tax Break"] = df_project["Tax Break Cumulative"] - df_project["Special Payment Cumulative"]
+
 
     elif project == "Bears Stadium and Entertainment Center":
         project_cost = 2000000000
         tax_break_term = 40
-        special_payment_min = 0# SPECIAL PAYMENT NOT REQUIRED 35 ILCS 200/10-1025(a) (line 22-23) https://ilga.gov/documents/legislation/104/HB/PDF/10400HB0910lv.pdf
+        special_payment_min = special_payment_percentage*0# SPECIAL PAYMENT NOT REQUIRED 35 ILCS 200/10-1025(a) (line 22-23) https://ilga.gov/documents/legislation/104/HB/PDF/10400HB0910lv.pdf
         value_added_y1 = bears
         project_name = "Bears Stadium and Entertainment Center"
         if df_district['County'].values[0] ==  "Cook":
@@ -137,6 +151,9 @@ def main():
                 "Tax Break EAV Adjusment": [value_added_y1 * 1.4 ** ((year - 1) // 3) for year in range(1,41)]
             })
             df_project['Tax Break Cumulative'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+            df_project['Special Payment Cumulative'] = df_project['Special Payment'].cumsum()
+            df_project["Tax Break"] = df_project["Tax Break Cumulative"] - df_project["Special Payment Cumulative"]
+
         else:
             df_project = pd.DataFrame({
                 "Year": list(range(1,41)),
@@ -145,6 +162,9 @@ def main():
                 "Tax Break EAV Adjusment": [value_added_y1 * 1.4 ** ((year - 1) // 4) for year in range(1,41)]
             })
             df_project['Tax Break Cumulative'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+            df_project['Special Payment Cumulative'] = df_project['Special Payment'].cumsum()
+            df_project["Tax Break"] = df_project["Tax Break Cumulative"] - df_project["Special Payment Cumulative"]
+
     
 
 #####################################################################################################################################################
@@ -155,19 +175,21 @@ def main():
 
     st.title("Illinois Megaproject Taxbreak Calculator")
 
+    st.dataframe(df_project)
+
     # Overview
 
     st.subheader(f"How much would a project like the {project_name} cost your school district?")
 
     st.markdown(f"""{project_name} is a \${project_cost:,.0f} megaproject. This makes it eligible for a {tax_break_term} year tax break.""")
 
-    st.markdown(f"""This would cost your district \${df_project['Tax Break Cumulative'].values[-1]:,.0f} over the {tax_break_term} year period and \${df_project['Tax Break EAV Adjusment'].values[0]:,.0f} in the first year alone.<sup>1</sup>""",unsafe_allow_html=True
+    st.markdown(f"""This would cost your district \${df_project['Tax Break'].values[-1]:,.0f} over the {tax_break_term} year period and \${df_project['Tax Break EAV Adjusment'].values[0]:,.0f} in the first year alone.<sup>1</sup>""",unsafe_allow_html=True
 )
     st.subheader(f"Cumulative tax break over time")
 
     # Example: values you already computed in df_project
     # columns: Year, Tax Break
-    base = df_project[["Year", "Tax Break Cumulative"]].copy()
+    base = df_project[["Year", "Tax Break"]].copy()
 
     # Build animated long data:
     # for each frame year t, show bars for years 1..t
@@ -176,7 +198,7 @@ def main():
         temp = base.copy()
         temp["Frame"] = t
         temp["Displayed"] = temp.apply(
-            lambda r: r["Tax Break Cumulative"] if r["Year"] <= t else 0,
+            lambda r: r["Tax Break"] if r["Year"] <= t else 0,
             axis=1
         )
         frames.append(temp)
@@ -188,8 +210,8 @@ def main():
         x="Year",
         y="Displayed",
         animation_frame="Frame",
-        range_y=[0, base["Tax Break Cumulative"].max() * 1.1],
-        labels={"Displayed": "Tax Break Cumulative", "Frame": "Year"}
+        range_y=[0, base["Tax Break"].max() * 1.1],
+        labels={"Displayed": "Tax Break", "Frame": "Year"}
     )
 
     fig.update_layout(
