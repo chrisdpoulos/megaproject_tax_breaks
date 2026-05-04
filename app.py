@@ -175,8 +175,6 @@ def main():
 
     st.title("Illinois Megaproject Taxbreak Calculator")
 
-    st.dataframe(df_project)
-
     # Overview
 
     st.subheader(f"How much would a project like the {project_name} cost your school district?")
