@@ -287,17 +287,10 @@ To understand the impact of the proposed mega project bill, use the calculator b
     tax_break_year1_schools = tax_break_year1/2
     special_payment_ratio = (special_payment_total / tax_break_total) if tax_break_total else 0
 
-    if project == "Enter Custom Amount":
-        st.markdown(f"""<h3>Without the Mega Project bill's tax gifts to developers, your city or town would receive an additional <b><font size="6"; color="green">${tax_break_year1:,.0f}</b></font> in the first year of the project, and schools would receive <b><font size="6"; color="green">${tax_break_year1_schools:,.0f}.</b></font></h3>
+    st.markdown(f"""<h3>Without the Mega Project bill's tax gifts to developers, your city or town would receive an additional <b><font size="6"; color="green">${tax_break_year1:,.0f}</b></font> in the first year of the project, and schools would receive <b><font size="6"; color="green">${tax_break_year1_schools:,.0f}.</b></font></h3>
 
 <h3>But the Mega Project bill removes those funds from local revenue. Over the {tax_break_term} year tax break, <b><font size="6"; color="red">${tax_break_total:,.0f}</b></font> would stay in developers’ pockets instead of funding your city or town’s needs. Schools would lose <b><font size="6"; color="red">${tax_break_total:,.0f}</b></font> in funds from the project.</h3>
 """,unsafe_allow_html=True)
-    else:
-        st.markdown(f"""<h3>Without the Mega Project bill's tax gifts to developers, your city or town would receive an additional <b><font size="6"; color="green">${tax_break_year1:,.0f}</b></font> in the first year of the project, and schools would receive <b><font size="6"; color="green">${tax_break_year1_schools:,.0f}.</b></font></h3>
-
-<h3>But the Mega Project bill removes those funds from local revenue. Over the {tax_break_term} year tax break, <b><font size="6"; color="red">${tax_break_total:,.0f}</b></font> would stay in developers’ pockets instead of funding your city or town’s needs. Schools would lose <b><font size="6"; color="red">${tax_break_total:,.0f}</b></font> in funds from the project.</h3>
-""", unsafe_allow_html=True)
-    
 #   st.markdown(f"""<p style="text-align: center;">Download our data and calculations to enter your own assumptions</p>""",unsafe_allow_html=True)
 
     buffer = io.BytesIO()
