@@ -369,7 +369,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
     with_total = without-withbreak
     with_total_schools = with_total/2
 
-    col1,col2,col3,col4 = st.columns([2, 3, 3, 3],gap=None)
+    col1,col2,col3,col4 = st.columns([2, 3, 3, 3],gap=None,width="stretch")
 
     
 
