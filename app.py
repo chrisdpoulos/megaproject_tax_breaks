@@ -314,8 +314,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
             data=buffer,
             file_name="data.xlsx",
             mime="application/vnd.ms-excel",
-            icon=":material/download:",
-            help="The excel file contains the underlying data used to perform the calculations and steps to replicating our math."
+            icon=":material/download:"
         )
 
     st.markdown(f"""<sub>
