@@ -53,12 +53,12 @@ To understand the impact of the proposed mega project bill, use the calculator b
     project = st.radio("", ["Google HQ","Large Online Retail Warehouse ($500 million project)","McCaskeys’ Stadium for the Bears and Entertainment Center","Enter Custom Amount"],index=3)
     if project == "Enter Custom Amount":
         project_amount = st.number_input(
-            "Or enter a custom megaproject amount ($)",
+            "",
             min_value=100_000_000,
             value=280_000_000,
             step=10_000_000,
             format="%d",
-            help="Enter whole dollars only."
+            help="Enter whole dollars only. They must be at least $100 million."
         )
         st.caption(f"Custom amount selected: ${int(project_amount):,}")
 
@@ -369,28 +369,27 @@ To understand the impact of the proposed mega project bill, use the calculator b
     with_total = without-withbreak
     with_total_schools = with_total/2
 
-    col1,col2,col3,col4 = st.columns([2, 3, 3, 3],gap=None,width="stretch")
+    st.markdown(f"""<h3>Revenue With and Without the Mega Project Bill Over the {tax_break_term} Year Tax Break</h3>""", unsafe_allow_html=True)
 
-    
+    df_table = pd.DataFrame({
+        "": ["Town or City", "Schools"],
+        "Without Mega Project Bill": [f"${without:,.0f}", f"${without_schools:,.0f}"],
+        "With Mega Project Bill": [f"${withbreak:,.0f}", f"${with_schools:,.0f}"],
+        "Total Loss": [f"${with_total:,.0f}", f"${with_total_schools:,.0f}"]
+    })
 
-    with col1:
-        st.markdown("""<b><p style="text-align: center;">Revenue</p></b>""", unsafe_allow_html=True)
-        st.markdown("""<div style="border: 0px solid #d9d9d9; padding: 0.5rem; border-radius: 6px;"><p style="text-align: center; margin: 0;">Town or City</p></div>""", unsafe_allow_html=True)
-        st.markdown("""<div style="border: 0px solid #d9d9d9; padding: 0.5rem; border-radius: 6px;"><p style="text-align: center; margin: 0;">Schools</p></div>""", unsafe_allow_html=True)
-    with col2:
-        st.markdown("""<b><p style="text-align: center;">Without Mega Project bill</p></b>""", unsafe_allow_html=True)
-        st.markdown(f"""<div style="border: 1px solid #d9d9d9; padding: 0.5rem; border-radius: 6px;"><p style="text-align: center; margin: 0;"><b><font size="3"; color="green">${without:,.0f}</b></font></p></div>""", unsafe_allow_html=True)
-        st.markdown(f"""<div style="border: 1px solid #d9d9d9; padding: 0.5rem; border-radius: 6px;"><p style="text-align: center; margin: 0;"><b><font size="3"; color="green">${without_schools:,.0f}</b></font></p></div>""", unsafe_allow_html=True)
-    with col3:
-        st.markdown("""<b><p style="text-align: center;">With Mega Project bill</p></b>""", unsafe_allow_html=True)
-        st.markdown(f"""<div style="border: 1px solid #d9d9d9; padding: 0.5rem; border-radius: 6px;"><p style="text-align: center; margin: 0;">${withbreak:,.0f}</p></div>""", unsafe_allow_html=True)
-        st.markdown(f"""<div style="border: 1px solid #d9d9d9; padding: 0.5rem; border-radius: 6px;"><p style="text-align: center; margin: 0;">${with_schools:,.0f}</p></div>""", unsafe_allow_html=True)
-    with col4:
-        st.markdown("""<b><p style="text-align: center;">Total Loss</p></b>""", unsafe_allow_html=True)
-        st.markdown(f"""<div style="border: 1px solid #d9d9d9; padding: 0.5rem; border-radius: 6px;"><p style="text-align: center; margin: 0;"><b><font size="3"; color="red">${with_total:,.0f}</b></font></p></div>""", unsafe_allow_html=True)
-        st.markdown(f"""<div style="border: 1px solid #d9d9d9; padding: 0.5rem; border-radius: 6px;"><p style="text-align: center; margin: 0;"><b><font size="3"; color="red">${with_total_schools:,.0f}</b></font></p></div>""", unsafe_allow_html=True)
+    styled_df_table = df_table.style.set_properties(
+        subset=["Without Mega Project Bill"],
+        **{"color": "green", "font-weight": "bold"}
+    ).set_properties(
+        subset=["Total Loss"],
+        **{"color": "red", "font-weight": "bold"}
+    )
 
-    st.subheader(f"Cumulative tax break over time")
+    st.dataframe(styled_df_table, hide_index=True, use_container_width=True)
+    st.markdown(f"""<sub><b>NOTE</b>: Property tax revenue represents the legally possible yearly levy increase. For more information see the field dictionary in the data_and_calculations.xlsx.</sub>""", unsafe_allow_html=True)
+
+    st.markdown(f"""<h3>Cumulative tax break over time</h3>""", unsafe_allow_html=True)
     
 # Animated chart
 
@@ -446,7 +445,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
         st.download_button(
             label="Download Data and Calculations",
             data=buffer,
-            file_name="data.xlsx",
+            file_name="data_and_calculations.xlsx",
             mime="application/vnd.ms-excel",
             icon=":material/download:"
         )
