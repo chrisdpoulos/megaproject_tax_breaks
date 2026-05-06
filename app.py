@@ -8,6 +8,8 @@
 # Created by: Christopher Poulos, Public Finance Analyst, Chicago Teachers Union
 # Contact: christopherpoulos@ctulocal1.org
 
+# Consulation on propety taxes provided by Joe Pilewski.
+
 import pandas as pd
 import streamlit as st
 import streamlit.components.v1 as components
@@ -107,7 +109,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
             df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
             df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
             df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
-            df_project["Tax Rate"] = tax_rate
+            
         else:
             df_project = pd.DataFrame({
                 "Year": list(range(1,26)),
@@ -120,7 +122,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
             df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
             df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
             df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
-            df_project["Tax Rate"] = tax_rate
+            
 
     if project == "Large Online Retail Warehouse ($500 million project)":
 
@@ -147,7 +149,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
             df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
             df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
             df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
-            df_project["Tax Rate"] = tax_rate
+            
         else:
             df_project = pd.DataFrame({
                 "Year": list(range(1,31)),
@@ -160,7 +162,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
             df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
             df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
             df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
-            df_project["Tax Rate"] = tax_rate
+            
 
 
     elif project == "McCaskeys’ Stadium for the Bears and Entertainment Center":
@@ -189,7 +191,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
             df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
             df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
             df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
-            df_project["Tax Rate"] = tax_rate
+            
         else:
             df_project = pd.DataFrame({
                 "Year": list(range(1,41)),
@@ -202,7 +204,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
             df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
             df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
             df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
-            df_project["Tax Rate"] = tax_rate
+            
 
 
     elif project == "Enter Custom Amount":
@@ -230,7 +232,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
                 df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
                 df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
                 df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
-                df_project["Tax Rate"] = tax_rate
+                
 
             else:
                 df_project = pd.DataFrame({
@@ -244,7 +246,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
                 df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
                 df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
                 df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
-                df_project["Tax Rate"] = tax_rate
+                
 
         if project_amount > 500_000_000 and project_amount <= 1_000_000_000:
             base_eav = project_amount*.2 # Assigning 20% of project cost to acquistion amount
@@ -265,7 +267,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
                 df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
                 df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
                 df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
-                df_project["Tax Rate"] = tax_rate
+                
 
             else:
                 df_project = pd.DataFrame({
@@ -279,7 +281,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
                 df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
                 df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
                 df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
-                df_project["Tax Rate"] = tax_rate
+                
 
 
         if project_amount > 1_000_000_000 and project_amount <= 2_000_000_000:
@@ -301,7 +303,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
                 df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
                 df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
                 df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
-                df_project["Tax Rate"] = tax_rate
+                
 
             else:
                 df_project = pd.DataFrame({
@@ -315,7 +317,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
                 df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
                 df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
                 df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
-                df_project["Tax Rate"] = tax_rate
+                
 
         if project_amount > 2_000_000_000:
             base_eav = project_amount*.2 # Assigning 20% of project cost to acquistion amount
@@ -336,7 +338,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
                 df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
                 df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
                 df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
-                df_project["Tax Rate"] = tax_rate
+                
             else:
                 df_project = pd.DataFrame({
                     "Year": list(range(1,41)),
@@ -349,7 +351,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
                 df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
                 df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
                 df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
-                df_project["Tax Rate"] = tax_rate
+                
     # Overview
 
     #st.dataframe(df_project)
