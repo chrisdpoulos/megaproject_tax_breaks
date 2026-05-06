@@ -36,7 +36,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
 </p>""",unsafe_allow_html=True)
 
     st.markdown("""<h2>Step 1. Adjust your local tax rate.</h2>""",unsafe_allow_html=True)
-    tax_rate_pct = st.slider("",min_value=1.00,max_value=10.00,value=6.64,step=0.01,format="%0.2f%%",help="You can find your total local tax rate on your property tax bill, which can be found online on the Cook County Treasurer's website: https://www.cookcountytreasurer.com/setsearchparameters.aspx.")
+    tax_rate_pct = st.slider("",min_value=1.00,max_value=20.00,value=9.48,step=0.01,format="%0.2f%%",help="You can find your total local tax rate on your property tax bill, which can be found online on the Cook County Treasurer's website: https://www.cookcountytreasurer.com/setsearchparameters.aspx.")
     tax_rate = tax_rate_pct / 100
 
     st.markdown("""<h2>Step 2. Select your county.</h2>""",unsafe_allow_html=True)
