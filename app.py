@@ -48,7 +48,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
     st.markdown("""<h2>Step 3. Select a sample megaproject or enter a custom amount.</h2>""",unsafe_allow_html=True)
 
     # Select megaproject
-    project = st.radio("", ["Google HQ","McCaskeys’ Stadium for the Bears and Entertainment Center","Enter Custom Amount"],index=2)
+    project = st.radio("", ["Google HQ","Large Online Retail Warehouse ($500 million project)","McCaskeys’ Stadium for the Bears and Entertainment Center","Enter Custom Amount"],index=3)
     if project == "Enter Custom Amount":
         project_amount = st.number_input(
             "Or enter a custom megaproject amount ($)",
@@ -98,24 +98,68 @@ To understand the impact of the proposed mega project bill, use the calculator b
         if county ==  "COOK":
             df_project = pd.DataFrame({
                 "Year": list(range(1,26)),
+                "Base EAV":[base_eav*1.108**((year - 1) // 3) for year in range(1, 26)],
+                "Tax Revenue":[(base_eav*tax_rate)*inflation ** (year-1) for year in range(1,26)],
                 "Special Payment": [special_payment_min*inflation ** (year-1) for year in range(1,26)],
                 "Tax Break Nominal": [value_added_y1 for year in range(1,26)],
-                "Tax Break EAV Adjusment": [value_added_y1 * 1.04 ** ((year - 1) // 3) for year in range(1, 26)]
+                "Tax Break EAV Adjusment": [value_added_y1 * 1.108 ** ((year - 1) // 3) for year in range(1, 26)]
             })
-            df_project['Tax Break Cumulative'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
-            df_project['Special Payment Cumulative'] = df_project['Special Payment'].cumsum()
-            df_project["Tax Break After Special Payment"] = df_project["Tax Break Cumulative"] - df_project["Special Payment Cumulative"]
+            df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+            df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
+            df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
             df_project["Tax Rate"] = tax_rate
         else:
             df_project = pd.DataFrame({
                 "Year": list(range(1,26)),
+                "Base EAV":[base_eav*1.108**((year - 1) // 3) for year in range(1, 26)],
+                "Tax Revenue":[(base_eav*tax_rate)*inflation ** (year-1) for year in range(1,26)],
                 "Special Payment": [special_payment_min*inflation ** (year-1) for year in range(1,26)],
                 "Tax Break Nominal": [value_added_y1 for year in range(1,26)],
-                "Tax Break EAV Adjusment": [value_added_y1 * 1.04 ** ((year - 1) // 4) for year in range(1, 26)]
+                "Tax Break EAV Adjusment": [value_added_y1 * 1.108 ** ((year - 1) // 4) for year in range(1, 26)]
             })
-            df_project['Tax Break Cumulative'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
-            df_project['Special Payment Cumulative'] = df_project['Special Payment'].cumsum()
-            df_project["Tax Break After Special Payment"] = df_project["Tax Break Cumulative"] - df_project["Special Payment Cumulative"]
+            df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+            df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
+            df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
+            df_project["Tax Rate"] = tax_rate
+
+    if project == "Large Online Retail Warehouse ($500 million project)":
+
+        # Initial project variables
+
+        project_cost = 500000001
+        base_eav =  project_cost*.2
+        tax_break_term = 25
+        special_payment_min = special_payment_percentage * (base_eav*tax_rate) # Assume 100% special payment
+        value_added_y1 = google_hq
+        project_name = "Large Online Retail Warehouse"
+
+        # Tax break calculations
+
+        if county ==  "COOK":
+            df_project = pd.DataFrame({
+                "Year": list(range(1,31)),
+                "Base EAV":[base_eav*1.108**((year - 1) // 3) for year in range(1, 31)],
+                "Tax Revenue":[(base_eav*tax_rate)*inflation ** (year-1) for year in range(1,31)],
+                "Special Payment": [special_payment_min*inflation ** (year-1) for year in range(1,31)],
+                "Tax Break Nominal": [value_added_y1 for year in range(1,31)],
+                "Tax Break EAV Adjusment": [value_added_y1 * 1.108 ** ((year - 1) // 3) for year in range(1, 31)]
+            })
+            df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+            df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
+            df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
+            df_project["Tax Rate"] = tax_rate
+        else:
+            df_project = pd.DataFrame({
+                "Year": list(range(1,31)),
+                "Base EAV":[base_eav*1.108**((year - 1) // 3) for year in range(1, 31)],
+                "Tax Revenue":[(base_eav*tax_rate)*inflation ** (year-1) for year in range(1,31)],
+                "Special Payment": [special_payment_min*inflation ** (year-1) for year in range(1,31)],
+                "Tax Break Nominal": [value_added_y1 for year in range(1,31)],
+                "Tax Break EAV Adjusment": [value_added_y1 * 1.108 ** ((year - 1) // 4) for year in range(1, 31)]
+            })
+            df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+            df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
+            df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
             df_project["Tax Rate"] = tax_rate
 
 
@@ -136,25 +180,30 @@ To understand the impact of the proposed mega project bill, use the calculator b
         if county ==  "COOK":
             df_project = pd.DataFrame({
                 "Year": list(range(1,41)),
+                "Base EAV":[base_eav*1.108**((year - 1) // 3) for year in range(1, 41)],
+                "Tax Revenue":[(base_eav*tax_rate)*inflation ** (year-1) for year in range(1,41)],
                 "Special Payment": [special_payment_min*inflation ** (year-1) for year in range(1,41)],
                 "Tax Break Nominal": [value_added_y1 for year in range(1,41)],
-                "Tax Break EAV Adjusment": [value_added_y1 * 1.04 ** ((year - 1) // 3) for year in range(1, 41)]
+                "Tax Break EAV Adjusment": [value_added_y1 * 1.108 ** ((year - 1) // 3) for year in range(1, 41)]
             })
-            df_project['Tax Break Cumulative'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
-            df_project['Special Payment Cumulative'] = df_project['Special Payment'].cumsum()
-            df_project["Tax Break After Special Payment"] = df_project["Tax Break Cumulative"] - df_project["Special Payment Cumulative"]
+            df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+            df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
+            df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
             df_project["Tax Rate"] = tax_rate
         else:
             df_project = pd.DataFrame({
                 "Year": list(range(1,41)),
+                "Base EAV":[base_eav*1.108**((year - 1) // 3) for year in range(1, 41)],
+                "Tax Revenue":[(base_eav*tax_rate)*inflation ** (year-1) for year in range(1,41)],
                 "Special Payment": [special_payment_min*inflation ** (year-1) for year in range(1,41)],
                 "Tax Break Nominal": [value_added_y1 for year in range(1,41)],
-                "Tax Break EAV Adjusment": [value_added_y1 * 1.04 ** ((year - 1) // 4) for year in range(1, 41)]
+                "Tax Break EAV Adjusment": [value_added_y1 * 1.108 ** ((year - 1) // 4) for year in range(1, 41)]
             })
-            df_project['Tax Break Cumulative'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
-            df_project['Special Payment Cumulative'] = df_project['Special Payment'].cumsum()
-            df_project["Tax Break After Special Payment"] = df_project["Tax Break Cumulative"] - df_project["Special Payment Cumulative"]
+            df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+            df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
+            df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
             df_project["Tax Rate"] = tax_rate
+
 
     elif project == "Enter Custom Amount":
 
@@ -172,25 +221,31 @@ To understand the impact of the proposed mega project bill, use the calculator b
             if county ==  "COOK":
                 df_project = pd.DataFrame({
                     "Year": list(range(1,26)),
+                    "Base EAV":[base_eav*1.108**((year - 1) // 3) for year in range(1, 26)],
+                    "Tax Revenue":[(base_eav*tax_rate)*inflation ** (year-1) for year in range(1,26)],
                     "Special Payment": [special_payment_min*inflation ** (year-1) for year in range(1,26)],
                     "Tax Break Nominal": [value_added_y1 for year in range(1,26)],
-                    "Tax Break EAV Adjusment": [value_added_y1 * 1.04 ** ((year - 1) // 3) for year in range(1, 26)]
+                    "Tax Break EAV Adjusment": [value_added_y1 * 1.108 ** ((year - 1) // 3) for year in range(1, 26)]
                 })
-                df_project['Tax Break Cumulative'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
-                df_project['Special Payment Cumulative'] = df_project['Special Payment'].cumsum()
-                df_project["Tax Break After Special Payment"] = df_project["Tax Break Cumulative"] - df_project["Special Payment Cumulative"]
+                df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+                df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
+                df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
                 df_project["Tax Rate"] = tax_rate
+
             else:
                 df_project = pd.DataFrame({
                     "Year": list(range(1,26)),
+                    "Base EAV":[base_eav*1.108**((year - 1) // 3) for year in range(1, 26)],
+                    "Tax Revenue":[(base_eav*tax_rate)*inflation ** (year-1) for year in range(1,26)],
                     "Special Payment": [special_payment_min*inflation ** (year-1) for year in range(1,26)],
                     "Tax Break Nominal": [value_added_y1 for year in range(1,26)],
-                    "Tax Break EAV Adjusment": [value_added_y1 * 1.04 ** ((year - 1) // 4) for year in range(1, 26)]
+                    "Tax Break EAV Adjusment": [value_added_y1 * 1.108 ** ((year - 1) // 4) for year in range(1, 26)]
                 })
-                df_project['Tax Break Cumulative'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
-                df_project['Special Payment Cumulative'] = df_project['Special Payment'].cumsum()
-                df_project["Tax Break After Special Payment"] = df_project["Tax Break Cumulative"] - df_project["Special Payment Cumulative"]
+                df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+                df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
+                df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
                 df_project["Tax Rate"] = tax_rate
+
         if project_amount > 500_000_000 and project_amount <= 1_000_000_000:
             base_eav = project_amount*.2 # Assigning 20% of project cost to acquistion amount
             tax_break_term = 30
@@ -201,25 +256,32 @@ To understand the impact of the proposed mega project bill, use the calculator b
             if county ==  "COOK":
                 df_project = pd.DataFrame({
                     "Year": list(range(1,31)),
+                    "Base EAV":[base_eav*1.108**((year - 1) // 3) for year in range(1, 31)],
+                    "Tax Revenue":[(base_eav*tax_rate)*inflation ** (year-1) for year in range(1,31)],
                     "Special Payment": [special_payment_min*inflation ** (year-1) for year in range(1,31)],
                     "Tax Break Nominal": [value_added_y1 for year in range(1,31)],
-                    "Tax Break EAV Adjusment": [value_added_y1 * 1.04 ** ((year - 1) // 3) for year in range(1, 31)]
+                    "Tax Break EAV Adjusment": [value_added_y1 * 1.108 ** ((year - 1) // 3) for year in range(1, 31)]
                 })
-                df_project['Tax Break Cumulative'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
-                df_project['Special Payment Cumulative'] = df_project['Special Payment'].cumsum()
-                df_project["Tax Break After Special Payment"] = df_project["Tax Break Cumulative"] - df_project["Special Payment Cumulative"]
+                df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+                df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
+                df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
                 df_project["Tax Rate"] = tax_rate
+
             else:
                 df_project = pd.DataFrame({
                     "Year": list(range(1,31)),
+                    "Base EAV":[base_eav*1.108**((year - 1) // 3) for year in range(1, 31)],
+                    "Tax Revenue":[(base_eav*tax_rate)*inflation ** (year-1) for year in range(1,31)],
                     "Special Payment": [special_payment_min*inflation ** (year-1) for year in range(1,31)],
                     "Tax Break Nominal": [value_added_y1 for year in range(1,31)],
-                    "Tax Break EAV Adjusment": [value_added_y1 * 1.04 ** ((year - 1) // 4) for year in range(1, 31)]
+                    "Tax Break EAV Adjusment": [value_added_y1 * 1.108 ** ((year - 1) // 4) for year in range(1, 31)]
                 })
-                df_project['Tax Break Cumulative'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
-                df_project['Special Payment Cumulative'] = df_project['Special Payment'].cumsum()
-                df_project["Tax Break After Special Payment"] = df_project["Tax Break Cumulative"] - df_project["Special Payment Cumulative"]
+                df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+                df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
+                df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
                 df_project["Tax Rate"] = tax_rate
+
+
         if project_amount > 1_000_000_000 and project_amount <= 2_000_000_000:
             base_eav = project_amount*.2 # Assigning 20% of project cost to acquistion amount
             tax_break_term = 40
@@ -230,25 +292,31 @@ To understand the impact of the proposed mega project bill, use the calculator b
             if county ==  "COOK":
                 df_project = pd.DataFrame({
                     "Year": list(range(1,41)),
+                    "Base EAV":[base_eav*1.108**((year - 1) // 3) for year in range(1, 41)],
+                    "Tax Revenue":[(base_eav*tax_rate)*inflation ** (year-1) for year in range(1,41)],
                     "Special Payment": [special_payment_min*inflation ** (year-1) for year in range(1,41)],
                     "Tax Break Nominal": [value_added_y1 for year in range(1,41)],
-                    "Tax Break EAV Adjusment": [value_added_y1 * 1.04 ** ((year - 1) // 3) for year in range(1, 41)]
+                    "Tax Break EAV Adjusment": [value_added_y1 * 1.108 ** ((year - 1) // 3) for year in range(1, 41)]
                 })
-                df_project['Tax Break Cumulative'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
-                df_project['Special Payment Cumulative'] = df_project['Special Payment'].cumsum()
-                df_project["Tax Break After Special Payment"] = df_project["Tax Break Cumulative"] - df_project["Special Payment Cumulative"]
+                df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+                df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
+                df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
                 df_project["Tax Rate"] = tax_rate
+
             else:
                 df_project = pd.DataFrame({
                     "Year": list(range(1,41)),
+                    "Base EAV":[base_eav*1.108**((year - 1) // 3) for year in range(1, 41)],
+                    "Tax Revenue":[(base_eav*tax_rate)*inflation ** (year-1) for year in range(1,41)],
                     "Special Payment": [special_payment_min*inflation ** (year-1) for year in range(1,41)],
                     "Tax Break Nominal": [value_added_y1 for year in range(1,41)],
-                    "Tax Break EAV Adjusment": [value_added_y1 * 1.04 ** ((year - 1) // 4) for year in range(1, 41)]
+                    "Tax Break EAV Adjusment": [value_added_y1 * 1.108 ** ((year - 1) // 4) for year in range(1, 41)]
                 })
-                df_project['Tax Break Cumulative'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
-                df_project['Special Payment Cumulative'] = df_project['Special Payment'].cumsum()
-                df_project["Tax Break After Special Payment"] = df_project["Tax Break Cumulative"] - df_project["Special Payment Cumulative"]
+                df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+                df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
+                df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
                 df_project["Tax Rate"] = tax_rate
+
         if project_amount > 2_000_000_000:
             base_eav = project_amount*.2 # Assigning 20% of project cost to acquistion amount
             tax_break_term = 40
@@ -259,71 +327,75 @@ To understand the impact of the proposed mega project bill, use the calculator b
             if county ==  "COOK":
                 df_project = pd.DataFrame({
                     "Year": list(range(1,41)),
+                    "Base EAV":[base_eav*1.108**((year - 1) // 3) for year in range(1, 41)],
+                    "Tax Revenue":[(base_eav*tax_rate)*inflation ** (year-1) for year in range(1,41)],
                     "Special Payment": [special_payment_min*inflation ** (year-1) for year in range(1,41)],
                     "Tax Break Nominal": [value_added_y1 for year in range(1,41)],
-                    "Tax Break EAV Adjusment": [value_added_y1 * 1.04 ** ((year - 1) // 3) for year in range(1, 41)]
+                    "Tax Break EAV Adjusment": [value_added_y1 * 1.108 ** ((year - 1) // 3) for year in range(1, 41)]
                 })
-                df_project['Tax Break Cumulative'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
-                df_project['Special Payment Cumulative'] = df_project['Special Payment'].cumsum()
-                df_project["Tax Break After Special Payment"] = df_project["Tax Break Cumulative"] - df_project["Special Payment Cumulative"]
+                df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+                df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
+                df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
                 df_project["Tax Rate"] = tax_rate
             else:
                 df_project = pd.DataFrame({
                     "Year": list(range(1,41)),
+                    "Base EAV":[base_eav*1.108**((year - 1) // 3) for year in range(1, 41)],
+                    "Tax Revenue":[(base_eav*tax_rate)*inflation ** (year-1) for year in range(1,41)],
                     "Special Payment": [special_payment_min*inflation ** (year-1) for year in range(1,41)],
                     "Tax Break Nominal": [value_added_y1 for year in range(1,41)],
-                    "Tax Break EAV Adjusment": [value_added_y1 * 1.04 ** ((year - 1) // 4) for year in range(1, 41)]
+                    "Tax Break EAV Adjusment": [value_added_y1 * 1.108 ** ((year - 1) // 4) for year in range(1, 41)]
                 })
-                df_project['Tax Break Cumulative'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
-                df_project['Special Payment Cumulative'] = df_project['Special Payment'].cumsum()
-                df_project["Tax Break After Special Payment"] = df_project["Tax Break Cumulative"] - df_project["Special Payment Cumulative"]
+                df_project['Tax Break (Cumulative)'] = (df_project['Tax Break EAV Adjusment'].cumsum()-df_project['Special Payment'].cumsum())
+                df_project['Special Payment (Cumulative)'] = df_project['Special Payment'].cumsum()
+                df_project["Tax Break After Special Payment"] = df_project["Tax Break (Cumulative)"] - df_project["Special Payment (Cumulative)"]
                 df_project["Tax Rate"] = tax_rate
     # Overview
 
-    special_payment_total = df_project["Special Payment Cumulative"].values[-1]
-    tax_break_total = df_project["Tax Break Cumulative"].values[-1]
-    tax_break_total_schools = tax_break_total/2
-    tax_break_year1 = df_project["Tax Break Cumulative"].values[0]
-    tax_break_year1_schools = tax_break_year1/2
-    special_payment_ratio = (special_payment_total / tax_break_total) if tax_break_total else 0
+    #st.dataframe(df_project)
 
-    st.markdown(f"""<h3>Without the Mega Project bill's tax gifts to developers, your city or town would receive an additional <b><font size="6"; color="green">${tax_break_year1:,.0f}</b></font> in the first year of the project, and schools would receive <b><font size="6"; color="green">${tax_break_year1_schools:,.0f}.</b></font></h3>
+    # Variables for table
 
-<h3>But the Mega Project bill removes those funds from local revenue. Over the {tax_break_term} year tax break, <b><font size="6"; color="red">${tax_break_total:,.0f}</b></font> would stay in developers’ pockets instead of funding your city or town’s needs. Schools would lose <b><font size="6"; color="red">${tax_break_total:,.0f}</b></font> in funds from the project.</h3>
-""",unsafe_allow_html=True)
-#   st.markdown(f"""<p style="text-align: center;">Download our data and calculations to enter your own assumptions</p>""",unsafe_allow_html=True)
+    # mega project without bill
 
-    buffer = io.BytesIO()
+    without = (df_project["Tax Break (Cumulative)"].values[-1] + df_project["Tax Revenue"].values[-1])
+    without_schools = without/2
 
-    with pd.ExcelWriter(buffer, engine="xlsxwriter") as writer:
-        df_project.to_excel(writer, index=False, sheet_name="Tax Break Data")
-        
-    buffer.seek(0)
+    withbreak = without-(df_project["Tax Break After Special Payment"].values[-1]+ df_project["Tax Revenue"].values[-1])
+    with_schools = withbreak/2
+    
+    with_total = without-withbreak
+    with_total_schools = with_total/2
 
-    _, download_col, _ = st.columns([1, 2, 1])
-    with download_col:
-        st.download_button(
-            label="Download Data and Calculations",
-            data=buffer,
-            file_name="data.xlsx",
-            mime="application/vnd.ms-excel",
-            icon=":material/download:"
-        )
+    col1,col2,col3,col4 = st.columns([2, 3, 3, 3],gap=None)
 
-    st.markdown(f"""<sub>
-This calculator was built by the Illinois Federation of Teachers based on our best reading of the HB0910 Mega Project bill as-written to help municipalities, school districts, and the general public better understand the sweeping changes and impacts of the bill being rushed forward.  If you have any questions, comments, or concerns regarding the calculations, asssumptions, or data, please contact us as christopherpoulos@ctulocal1.org.  
-</sub>
-""",unsafe_allow_html=True)
+    
 
+    with col1:
+        st.markdown("""<b><p style="text-align: center;">Revenue</p></b>""", unsafe_allow_html=True)
+        st.markdown("""<div style="border: 0px solid #d9d9d9; padding: 0.5rem; border-radius: 6px;"><p style="text-align: center; margin: 0;">Town or City</p></div>""", unsafe_allow_html=True)
+        st.markdown("""<div style="border: 0px solid #d9d9d9; padding: 0.5rem; border-radius: 6px;"><p style="text-align: center; margin: 0;">Schools</p></div>""", unsafe_allow_html=True)
+    with col2:
+        st.markdown("""<b><p style="text-align: center;">Without Mega Project bill</p></b>""", unsafe_allow_html=True)
+        st.markdown(f"""<div style="border: 1px solid #d9d9d9; padding: 0.5rem; border-radius: 6px;"><p style="text-align: center; margin: 0;"><b><font size="3"; color="green">${without:,.0f}</b></font></p></div>""", unsafe_allow_html=True)
+        st.markdown(f"""<div style="border: 1px solid #d9d9d9; padding: 0.5rem; border-radius: 6px;"><p style="text-align: center; margin: 0;"><b><font size="3"; color="green">${without_schools:,.0f}</b></font></p></div>""", unsafe_allow_html=True)
+    with col3:
+        st.markdown("""<b><p style="text-align: center;">With Mega Project bill</p></b>""", unsafe_allow_html=True)
+        st.markdown(f"""<div style="border: 1px solid #d9d9d9; padding: 0.5rem; border-radius: 6px;"><p style="text-align: center; margin: 0;">${withbreak:,.0f}</p></div>""", unsafe_allow_html=True)
+        st.markdown(f"""<div style="border: 1px solid #d9d9d9; padding: 0.5rem; border-radius: 6px;"><p style="text-align: center; margin: 0;">${with_schools:,.0f}</p></div>""", unsafe_allow_html=True)
+    with col4:
+        st.markdown("""<b><p style="text-align: center;">Total Loss</p></b>""", unsafe_allow_html=True)
+        st.markdown(f"""<div style="border: 1px solid #d9d9d9; padding: 0.5rem; border-radius: 6px;"><p style="text-align: center; margin: 0;"><b><font size="3"; color="red">${with_total:,.0f}</b></font></p></div>""", unsafe_allow_html=True)
+        st.markdown(f"""<div style="border: 1px solid #d9d9d9; padding: 0.5rem; border-radius: 6px;"><p style="text-align: center; margin: 0;"><b><font size="3"; color="red">${with_total_schools:,.0f}</b></font></p></div>""", unsafe_allow_html=True)
 
     st.subheader(f"Cumulative tax break over time")
     
 # Animated chart
 
-    base = df_project[["Year", "Tax Break Cumulative", "Special Payment Cumulative"]].copy()
+    base = df_project[["Year", "Tax Break (Cumulative)", "Special Payment (Cumulative)"]].copy()
     chart_data = base.melt(
         id_vars="Year",
-        value_vars=["Tax Break Cumulative", "Special Payment Cumulative"],
+        value_vars=["Tax Break (Cumulative)", "Special Payment (Cumulative)"],
         var_name="Category",
         value_name="Amount"
     )
@@ -354,18 +426,33 @@ This calculator was built by the Illinois Federation of Teachers based on our be
     fig.update_yaxes(autorange=True, tickprefix="$", separatethousands=True)
 
     st.plotly_chart(fig, use_container_width=True)
+#     st.markdown(f"""<h3>Without the Mega Project bill's tax gifts to developers, your city or town would receive an additional <b><font size="6"; color="green">${tax_break_year1:,.0f}</b></font> in the first year of the project, and schools would receive <b><font size="6"; color="green">${tax_break_year1_schools:,.0f}.</b></font></h3>
 
-    st.markdown(f"""
-<sub><b>Sources:</b></sub>
-<ul>
-<sub><li>School district equalized assessed value and tax rate data - Illinois Report Card SY2025, Illinois School Board of Education.</li></sub>
-<sub><li>Megaproject legislation on termination dates and special assessments - <a href="https://ilga.gov/documents/legislation/104/HB/PDF/10400HB0910lv.pdf">HB0910</a>.</li></sub>
-</ul>
+# <h3>But the Mega Project bill removes those funds from local revenue. Over the {tax_break_term} year tax break, <b><font size="6"; color="red">${tax_break_total_after_special_payment:,.0f}</b></font> would stay in developers’ pockets instead of funding your city or town’s needs. Schools would lose <b><font size="6"; color="red">${tax_break_total:,.0f}</b></font> in funds from the project.</h3>
+# """,unsafe_allow_html=True,help="The funds removed from localities (the large, bolded red numbers) take into account the so-called 'special payment', which is a payment made on behalf of the owners to the locality in lieu of not paying property taxes. This payment is equal to 10% of the property tax revenue generated by the project's property prior to the year of the mega project subsidy. However, this does not apply to projects over $2 billion.")
+#   st.markdown(f"""<p style="text-align: center;">Download our data and calculations to enter your own assumptions</p>""",unsafe_allow_html=True)
+
+    buffer = io.BytesIO()
+
+    with pd.ExcelWriter(buffer, engine="xlsxwriter") as writer:
+        df_project.to_excel(writer, index=False, sheet_name="Tax Break Data")
+        
+    buffer.seek(0)
+
+    _, download_col, _ = st.columns([1, 2, 1])
+    with download_col:
+        st.download_button(
+            label="Download Data and Calculations",
+            data=buffer,
+            file_name="data.xlsx",
+            mime="application/vnd.ms-excel",
+            icon=":material/download:"
+        )
+
+    st.markdown(f"""<sub>
+This calculator was built by the Illinois Federation of Teachers based on our best reading of the HB0910 Mega Project bill as-written to help municipalities, school districts, and the general public better understand the sweeping changes and impacts of the bill being rushed forward.  If you have any questions, comments, or concerns regarding the calculations, asssumptions, or data, please contact us as christopherpoulos@ctulocal1.org.  
+</sub>
 """,unsafe_allow_html=True)
-
-#    df_project_year = df_project[df_project["Year"] == year_value]    
-
-#    st.markdown(f"The tax break for year {year_value} is \${df_project.loc[df_project['Year'] == year_value, "Tax Break After Special Payment"].values[0]:,.0f}.")
 
 if __name__ == "__main__":
     main()
