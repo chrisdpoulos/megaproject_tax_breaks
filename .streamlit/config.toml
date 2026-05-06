@@ -4,7 +4,7 @@ backgroundColor="white"
 secondaryBackgroundColor="lavender"
 codeBackgroundColor="powderBlue"
 font = "sans-serif"
-headingFontSizes = ["2rem", "1.5rem", "1.5rem", "1.5rem", "1.35rem", "1.15rem"]
+headingFontSizes = ["2rem", "1.5rem", "1.35rem", "1.35rem", "1.35rem", "1.15rem"]
 
 [theme.sidebar]
 backgroundColor="ghostWhite"
