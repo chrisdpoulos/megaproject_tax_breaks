@@ -247,7 +247,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
     # Create field dicitionary
 
     df_field_dictionary = pd.DataFrame({
-        "Fields": [
+        "Field": [
             "Year", 
             "Tax Revenue Inflator (3% Assumption)", 
             "Potential Tax Revenue Year 1", 
@@ -257,7 +257,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
             "Special Payment (Inflated)",
             "Special Payment (Cumulative)",
             "Tax Expenditure (Cumulative)"],
-        "Descriptions": [
+        "Description": [
             "Year of the tax break term (1 to 25, 30, or 40 years depending on project cost)",
             "Assumed annual inflation rate of 3% for potential tax revenue and special payment. Our inflator is meant to simulate the Consumer Price Index for All Urban Consumers (CPI-U). Illinois' Property Tax Extension Law Limit (PTELL) limits levy increases by the lessor of 5% or inflation as measured by CPI-U.",
             "The potential tax revenue in year 1 is the selected tax rate multiplied by the added EAV from the megaproject. The added EAV is equal to the project cost multiplied by the assessment rate (.25 if its in Cook County and .3333 if elsewhere) and the equalization factor (3.0355 if its in Cook County and 1 if elsewhere)). We, therefore, assume that the fair market value of the project's parcels are equal to the value of the means of production and labor power used to create the project.",
