@@ -1,11 +1,12 @@
-# Streamlit app to calcuate the tax break under the proposed HB0910 Mega Project bill.abs
+# Streamlit app to calcuate the tax break for a megaproject in Illinois. 
+# The app will allow users to select a district and a megaproject example, 
+# and then it will calculate how much the school district would lose in 
+# property tax revenue as a result of the megaproject incentive bill.
 
-# The end user is aimed at journalists and others with a knowledge of the bill. 
-# 
 # Created by: Christopher Poulos, Public Finance Analyst, Chicago Teachers Union
 # Contact: christopherpoulos@ctulocal1.org
 
-# I am currently working on an explainer version for those with less familiarity with the bill.
+# Consulation on propety taxes provided by Joe Pilewski.
 
 import pandas as pd
 import streamlit as st
@@ -25,13 +26,13 @@ def main():
         initial_sidebar_state="expanded"
     )
 
-
-
     # Title
 
     st.markdown("""<h1>Illinois Megaproject - Mega Loss Calculator</h1>""",unsafe_allow_html=True)
 
-    st.markdown("""<p>As-written, the Mega Project bill rewrites the tax code for the State of Illinois and signifies the largest transfer of responsibility for revenue for local revenue, schools, and services from private developers to individual property owners in the state’s history.
+    st.markdown("""<p>The Mega Project bill (HB0910) is currently making its way through the Illinois legislature. It would allow owners of large development projects exceeding $100 million to avoid paying taxes on the newly added property—in some cases for up to 40 years. This is referred to as <b><font background color = yellow>tax expenditure</font></b>.
+    
+This calulator is designed to help the general public understand how the 
 
 To understand the impact of the proposed mega project bill, use the calculator below.
 </p>""",unsafe_allow_html=True)
