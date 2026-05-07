@@ -154,8 +154,8 @@ To understand the impact of the proposed mega project bill, use the calculator b
         "Tax Revenue Inflator (3% Assumption)": [inflation ** (year-1) for year in range(1,(tax_break_term+1))],
         "Potential Tax Revenue Year 1": [added_eav_revenue_y1 for year in range(1,(tax_break_term+1))],
         "Potential Tax Revenue (Inflated)": [added_eav_revenue_y1*inflation ** (year-1) for year in range(1,(tax_break_term+1))],
-        "Special Payment Year 1": [special_payment_min for year in range(1,(tax_break_term+1))],
-        "Special Payment (Inflated)":[(special_payment_min)*inflation ** (year-1) for year in range(1,(tax_break_term+1))]
+        "Special Payment Year 1": [special_payment_min/2 for year in range(1,(tax_break_term+1))],
+        "Special Payment (Inflated)":[(special_payment_min/2)*inflation ** (year-1) for year in range(1,(tax_break_term+1))]
     })
 
     df_project["Potential Tax Revenue (Cumulative)"] = df_project["Potential Tax Revenue (Inflated)"].cumsum()
@@ -289,7 +289,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
         )
 
     st.markdown(f"""<sub>
-This calculator was built by the Illinois Federation of Teachers based on our best reading of the HB0910 Mega Project bill as-written to help municipalities, school districts, and the general public better understand the sweeping changes and impacts of the bill being rushed forward.  If you have any questions, comments, or concerns regarding the calculations, asssumptions, or data, please contact us as christopherpoulos@ctulocal1.org.  
+This calculator was built by the Illinois Federation of Teachers based on our best reading of the HB0910 Mega Project bill as-written. The calculator is intended to help municipalities, school districts, and the general public better understand the sweeping changes and impacts of the bill being rushed forward.  If you have any questions, comments, or concerns regarding the calculations, asssumptions, or data, please contact us as team@ift-aft.org.  
 </sub>
 """,unsafe_allow_html=True)
 
