@@ -207,7 +207,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
     
 # Animated chart
 
-    base = df_project[["Year", "Potential Tax Revenue (Inflated)", "Special Payment (Inflated)"]].copy()
+    base = df_project[["Year", "Potential Tax Revenue (Cumulative)", "Special Payment (Cumulative)"]].copy()
     base.columns = ["Year", "Potential Tax Revenue", "Special Payment"]
     chart_data = base.melt(
         id_vars="Year",
