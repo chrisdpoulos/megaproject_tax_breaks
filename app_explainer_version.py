@@ -26,16 +26,19 @@ def main():
         initial_sidebar_state="expanded"
     )
 
+#  This is referred to as <b><font style="background-color:yellow;">tax expenditure</font></b> which refers is a <font style="background-color:yellow;">the loss of government revenue due to subsidies.</font>
     # Title
 
     st.markdown("""<h1>Illinois Megaproject - Mega Loss Calculator</h1>""",unsafe_allow_html=True)
 
-    st.markdown("""<p>The Mega Project bill (HB0910) is currently making its way through the Illinois legislature. It would allow owners of large development projects exceeding $100 million to avoid paying taxes on the newly added property—in some cases for up to 40 years. This is referred to as <b><font background color = yellow>tax expenditure</font></b>.
+    st.markdown("""<p>The Mega Project bill (HB0910) is currently making its way through the Illinois legislature. It would allow owners of development projects exceeding $100 million to avoid paying taxes on the newly added property—in some cases for up to 40 years.
     
-This calulator is designed to help the general public understand how the 
+The calculator below is designed to help the general public understand how the bill works and the revenue local governments and school districts could lose if it is passed.
 
-To understand the impact of the proposed mega project bill, use the calculator below.
+Follow the steps below to understand how the bill works.
+
 </p>""",unsafe_allow_html=True)
+
 
     st.markdown("""<h2>Step 1. Adjust to reflect your local tax rate.</h2>""",unsafe_allow_html=True)
     
