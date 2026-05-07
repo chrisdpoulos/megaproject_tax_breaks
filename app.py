@@ -139,10 +139,10 @@ To understand the impact of the proposed mega project bill, use the calculator b
 
     if project_cost > 2_000_000_000:
         special_payment_percentage = 0
-        special_payment_min = special_payment_percentage * (tax_revenue_year1) 
+        special_payment_min = (special_payment_percentage * (tax_revenue_year1))/2 
     else:
         special_payment_percentage = .1
-        special_payment_min = special_payment_percentage * (tax_revenue_year1)
+        special_payment_min = (special_payment_percentage * (tax_revenue_year1))/2
 
     if county == "COOK":
         assessment_cycle = 3
@@ -154,8 +154,8 @@ To understand the impact of the proposed mega project bill, use the calculator b
         "Tax Revenue Inflator (3% Assumption)": [inflation ** (year-1) for year in range(1,(tax_break_term+1))],
         "Potential Tax Revenue Year 1": [added_eav_revenue_y1 for year in range(1,(tax_break_term+1))],
         "Potential Tax Revenue (Inflated)": [added_eav_revenue_y1*inflation ** (year-1) for year in range(1,(tax_break_term+1))],
-        "Special Payment Year 1": [special_payment_min/2 for year in range(1,(tax_break_term+1))],
-        "Special Payment (Inflated)":[(special_payment_min/2)*inflation ** (year-1) for year in range(1,(tax_break_term+1))]
+        "Special Payment Year 1": [special_payment_min for year in range(1,(tax_break_term+1))],
+        "Special Payment (Inflated)":[(special_payment_min)*inflation ** (year-1) for year in range(1,(tax_break_term+1))]
     })
 
     df_project["Potential Tax Revenue (Cumulative)"] = df_project["Potential Tax Revenue (Inflated)"].cumsum()
@@ -263,8 +263,8 @@ To understand the impact of the proposed mega project bill, use the calculator b
             "The potential tax revenue in year 1 is the selected tax rate multiplied by the added EAV from the megaproject. The added EAV is equal to the project cost multiplied by the assessment rate (.25 if its in Cook County and .3333 if elsewhere) and the equalization factor (3.0355 if its in Cook County and 1 if elsewhere)). We, therefore, assume that the fair market value of the project's parcels are equal to the value of the means of production and labor power used to create the project.",
             "The potential tax revenue tax revenue multiplied by our inflator. It is potential because the bill would prohibit the ability to tax the added EAV and therefore the taxing jurisdicitons would lose out on the ability to increase the levy by the added revenue multiplied by the PTELL limit.",
             "The cumulative sum of the potential tax revenue for each year of the tax break term.",
-            "The special payment amount in year 1, which is the minimum required payment under the bill (10% of potential tax revenue in year 1) unless the project cost is greater than $2 billion in which case there is no required special payment",
-            "The special payment for each year of the tax break term inflated by the assumed inflation rate. According to the bill, as written, the special payment is 10% of the tax revenue in the \"base year\", which is the year to the project adjusted for inflation as measured by the CPI-U.",
+            "The special payment amount in year 1, which is a minimum required payment from the owner to the taxing jurisdiction in lieu of not having to pay taxes on the added equalized assessed value. The special payment is 10% of the tax revenue in the \"base year\", which is the year to the project adjusted for inflation as measured by the CPI-U. We then divide by 2 because the legislation requires 50% of the special payment to be placed in a property tax relief fund. The special payment is not required by projects greater than $2 billion.",
+            "The special payment for each year of the tax break term inflated by the assumed inflation rate.",
             "The cumulative sum of the special payment for each year of the tax break term.",
             "The difference between the cumulative potential tax revenue and the cumulative special payment, which represents the cumulative tax expenditure for the town or city and schools over the tax break term."
         ]
@@ -283,7 +283,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
         st.download_button(
             label="Download Data and Methodology",
             data=buffer,
-            file_name="data_and_methodology.xlsx",
+            file_name=f"data_and_methodology_{pd.Timestamp.now().strftime('%Y-%m-%d')}.xlsx",
             mime="application/vnd.ms-excel",
             icon=":material/download:"
         )
