@@ -290,6 +290,8 @@ To understand the impact of the proposed mega project bill, use the calculator b
 
     st.markdown(f"""<sub>
 This calculator was built by the Illinois Federation of Teachers based on our best reading of the HB0910 Mega Project bill as-written. The calculator is intended to help municipalities, school districts, and the general public better understand the sweeping changes and impacts of the bill being rushed forward.  If you have any questions, comments, or concerns regarding the calculations, asssumptions, or data, please contact us as team@ift-aft.org.  
+
+<b>Last updated</b>: 2026-05-07
 </sub>
 """,unsafe_allow_html=True)
 
