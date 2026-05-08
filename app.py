@@ -36,7 +36,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
 
     st.markdown("""<h2>Step 1. Adjust to reflect your local tax rate.</h2>""",unsafe_allow_html=True)
     
-    tax_rate_pct = st.slider("",min_value=1.00,max_value=20.00,value=9.48,step=0.01,format="%0.2f%%",help="You can find your total local tax rate on your property tax bill.")
+    tax_rate_pct = st.slider("",min_value=1.00,max_value=20.00,value=9.48,step=0.01,format="%0.2f%%",help="The defaul is set to the full tax rate of an Arlington Heights resident (the sum of the tax rates of the schools, the municipality, the library, etc.). You can find your total local tax rate on your property tax bill.")
     tax_rate = tax_rate_pct / 100
 
     st.markdown("""<h2>Step 2. Select your county.</h2>""",unsafe_allow_html=True)
