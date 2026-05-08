@@ -174,10 +174,10 @@ To understand the impact of the proposed mega project bill, use the calculator b
     st.markdown(f"""<h3>Revenue With and Without the Mega Project Bill Over the {tax_break_term} Year Tax Break</h3>""", unsafe_allow_html=True)
 
     df_table = pd.DataFrame({
-        "": ["Town or City", "Schools"],
-        "Without Mega Project Bill": [f"${total_without_bill:,.0f}", f"${total_without_bill_schools:,.0f}"],
-        "With Mega Project Bill": [f"${actual_tax_revenue:,.0f}", f"${actual_tax_revenue_schools:,.0f}"],
-        "Total Loss": [f"${total_without_bill:,.0f}", f"${total_without_bill_schools:,.0f}"]
+        "": ["Sum of All Taxing Bodies", "Portion to Schools"],
+        "Revenu Without Mega Project Bill": [f"${total_without_bill:,.0f}", f"${total_without_bill_schools:,.0f}"],
+        "Revenue With Mega Project Bill": [f"${actual_tax_revenue:,.0f}", f"${actual_tax_revenue_schools:,.0f}"],
+        "Revenu Loss": [f"${total_without_bill:,.0f}", f"${total_without_bill_schools:,.0f}"]
     })
 
     styled_df_table = df_table.style.set_properties(
