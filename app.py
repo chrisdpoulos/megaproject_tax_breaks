@@ -181,10 +181,10 @@ To understand the impact of the proposed mega project bill, use the calculator b
     })
 
     styled_df_table = df_table.style.set_properties(
-        subset=["Without Mega Project Bill"],
+        subset=["Revenue Without Mega Project Bill"],
         **{"color": "green", "font-weight": "bold"}
     ).set_properties(
-        subset=["Total Loss"],
+        subset=["Revenue Loss"],
         **{"color": "red", "font-weight": "bold"}
     )
 
