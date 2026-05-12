@@ -167,7 +167,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
 
     actual_tax_revenue = df_project["Special Payment (Cumulative)"].values[-1]
     actual_tax_revenue_schools = actual_tax_revenue/2
-    
+
     total_without_bill = potential_tax_revenue-actual_tax_revenue
     total_without_bill_schools = potential_tax_revenue_schools-actual_tax_revenue_schools 
 
@@ -175,7 +175,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
 
     df_table = pd.DataFrame({
         "": ["Sum of All Taxing Bodies", "Portion to Schools"],
-        "Revenue Without Mega Project Bill": [f"${total_without_bill:,.0f}", f"${total_without_bill_schools:,.0f}"],
+        "Revenue Without Mega Project Bill": [f"${potential_tax_revenue:,.0f}", f"${potential_tax_revenue_schools:,.0f}"],
         "Revenue With Mega Project Bill": [f"${actual_tax_revenue:,.0f}", f"${actual_tax_revenue_schools:,.0f}"],
         "Revenue Loss": [f"${total_without_bill:,.0f}", f"${total_without_bill_schools:,.0f}"]
     })
@@ -258,7 +258,7 @@ To understand the impact of the proposed mega project bill, use the calculator b
             "The potential tax revenue in year 1 is the selected tax rate multiplied by the added EAV from the megaproject. The added EAV is equal to the project cost multiplied by the assessment rate (.25 if its in Cook County and .3333 if elsewhere) and the equalization factor (3.0355 if its in Cook County and 1 if elsewhere)). We, therefore, assume that the fair market value of the project's parcels are equal to the value of the means of production and labor power used to create the project.",
             "The potential tax revenue tax revenue multiplied by our inflator. It is potential because the bill would prohibit the ability to tax the added EAV and therefore the taxing jurisdicitons would lose out on the ability to increase the levy by the added revenue multiplied by the PTELL limit.",
             "The cumulative sum of the potential tax revenue for each year of the tax break term.",
-            "The special payment amount in year 1, which is a minimum required payment from the owner to the taxing jurisdiction in lieu of not having to pay taxes on the added equalized assessed value. The special payment is 10% of the tax revenue in the \"base year\", which is the year to the project adjusted for inflation as measured by the CPI-U. We then divide by 2 because the legislation requires 50% of the special payment to be placed in a property tax relief fund. The special payment is not required by projects greater than $2 billion.",
+            "The special payment amount in year 1, which is a minimum required payment from the owner to the taxing jurisdiction in lieu of not having to pay taxes on the added equalized assessed value. The special payment is 10% of the tax revenue in the \"base year\", which is the year prior to the project adjusted for inflation as measured by the CPI-U. We then divide by 2 because the legislation requires 50% of the special payment to be placed in a property tax relief fund. The special payment is not required by projects greater than $2 billion. For the Google HQ and McCaskeys' Stadium for the Bears and Entertainment Center we use the current equalized assessed value (EAV) as the base EAV (looked up 5/11/26). The Large Online Retail Warehouse and custom amounts we take 10% of the total project cost multiplied by the most recent available assessment level and equalization factor (5/12/2026) to derive an EAV.",
             "The special payment for each year of the tax break term inflated by the assumed inflation rate.",
             "The cumulative sum of the special payment for each year of the tax break term.",
             "The difference between the cumulative potential tax revenue and the cumulative special payment, which represents the cumulative tax expenditure for the town or city and schools over the tax break term."
