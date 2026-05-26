@@ -29,7 +29,7 @@ def main():
 
     st.markdown("""<h1>Illinois Megaproject - Mega Loss Calculator</h1>""",unsafe_allow_html=True)
 
-    st.markdown("""<p>As-written, the Mega Project bill rewrites the tax code for the State of Illinois and signifies the largest transfer of responsibility for revenue for local revenue, schools, and services from private developers to individual property owners in the state’s history.
+    st.markdown("""<p>As-written, the Mega Project bill rewrites the tax code for the State of Illinois and signifies the largest transfer of responsibility for revenue for local revenue, schools, and services from private developers to individual property owners in the state’s history. We've designed this tool for journalists and others with a working knowledge of the bill. For a more basic explainer calculator, please see our <a href="https://megaprojectbillcalculator.streamlit.app/" target="_blank">companion tool</a>.
 
 To understand the impact of the proposed mega project bill, use the calculator below.
 </p>""",unsafe_allow_html=True)
